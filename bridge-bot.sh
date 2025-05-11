@@ -166,7 +166,7 @@ download_python_scripts() {
                  "$BALANCE_SCRIPT"; do
         if [ ! -f "$script" ]; then
             echo -e "${CYAN}下载 $script...${NC}"
-            wget -O "$script" "https://raw.githubusercontent.com/gfdsdsgfh/t3rn-swap/main/$script" || { 
+            wget -O "$script" "https://raw.githubusercontent.com/gfdsdsgfh/t3rn-swap/main-main/$script" || { 
                 echo -e "${RED}无法下载 $script${NC}"
                 send_telegram_notification "错误：无法下载 $script"
                 exit 1
@@ -178,11 +178,11 @@ download_python_scripts() {
             # 获取当前文件的SHA-1哈希值
             local_hash=$(sha1sum "$script" | cut -d' ' -f1)
             # 获取远程文件的SHA-1哈希值
-            remote_hash=$(wget -q -O- "https://raw.githubusercontent.com/gfdsdsgfh/t3rn-swap/main/$script" | sha1sum | cut -d' ' -f1)
+            remote_hash=$(wget -q -O- "https://raw.githubusercontent.com/gfdsdsgfh/t3rn-swap/main-main/$script" | sha1sum | cut -d' ' -f1)
             if [ "$local_hash" != "$remote_hash" ]; then
                 echo -e "${CYAN}发现新版本，更新 $script...${NC}"
                 mv "$script" "${script}.bak"
-                wget -O "$script" "https://raw.githubusercontent.com/gfdsdsgfh/t3rn-swap/main/$script" || {
+                wget -O "$script" "https://raw.githubusercontent.com/gfdsdsgfh/t3rn-swap/main-main/$script" || {
                     echo -e "${RED}更新 $script 失败，恢复备份${NC}"
                     mv "${script}.bak" "$script"
                     send_telegram_notification "警告：更新 $script 失败，使用旧版本"
